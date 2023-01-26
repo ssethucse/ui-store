@@ -1,0 +1,33 @@
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <div class="row">
+
+        <!--Loop over the collection of products -->
+        <div *ngFor = "let prod of products" class="col-md-3">
+          <div class="product-box">
+
+            <img src="{{ prod.imageUrl }}" class="img-responsive">
+
+            <a routerLink="product/getInfo/{{prod.id}}">
+            <h1>{{prod.name}}</h1>
+            </a>
+
+            <button class="au-btn-submit" (click)="doSearch(prod.id)">
+              Info
+            </button>
+
+            <div class="price">{{prod.unitPrice | currency:'INR'}}</div>
+            <a href="#" class="primary-btn">Add to cart</a>
+          </div>
+        </div>
+
+        <!--If product is Empty-->
+        <div *ngIf = "products?.length==0" class="alert alert-warning col-md-12" role="alert">
+          No Products Found!
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
