@@ -24,13 +24,11 @@ getProductCategories(): Observable<ProductCategory[]>{
 }
 
 
-  getProductList(categoryId: number): Observable<Product[]>{
+  getProductListPaginate(thePage: number, thePageSize: number, categoryId: number): Observable<GetResponseProducts>{
 
-  const searchUrl = `${this.baseUrl}/product/getProducts/${categoryId}`;
-
-  return this.httpClient.get<any>(searchUrl).pipe(
-  map(response=> response.content)
-  );
+  const searchUrl = `${this.baseUrl}/product/getProducts/${categoryId}`
+                      +`?page=${thePage}&pageSize=${thePageSize}`;
+  return this.httpClient.get<GetResponseProducts>(searchUrl);
   }
 
   getSearchList(keyword: string): Observable<Product[]>{
@@ -50,7 +48,13 @@ getProductCategories(): Observable<ProductCategory[]>{
     map(response=> response)
     );
     }
-
 }
+
+  interface GetResponseProducts {
+  content:  Product[],
+  totalPages: number,
+  size: number,
+  number: number
+  }
 
 
