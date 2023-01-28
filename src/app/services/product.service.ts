@@ -31,13 +31,12 @@ getProductCategories(): Observable<ProductCategory[]>{
   return this.httpClient.get<GetResponseProducts>(searchUrl);
   }
 
-  getSearchList(keyword: string): Observable<Product[]>{
+  getSearchListPaginate(thePage: number, thePageSize: number, keyword: string): Observable<GetResponseProducts>{
 
-  const filterUrl = `${this.baseUrl}/product/getProducts/search/${keyword}`;
+  const filterUrl = `${this.baseUrl}/product/getProducts/search/${keyword}`
+                              +`?page=${thePage}&pageSize=${thePageSize}`;
 
-  return this.httpClient.get<any>(filterUrl).pipe(
-  map(response=>response.content)
-  );
+  return this.httpClient.get<GetResponseProducts>(filterUrl);
   }
 
   getProductInfo(productId: number): Observable<Product>{

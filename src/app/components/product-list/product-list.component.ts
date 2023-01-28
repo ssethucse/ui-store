@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service';
+import { CartService } from 'src/app/services/cart.service';
 import { Product } from 'src/app/common/Product';
+import { CartItem } from 'src/app/common/cart-item';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 
@@ -17,11 +19,14 @@ export class ProductListComponent implements OnInit {
   searchMode: boolean = false;
 
   thePageNumber: number = 1;
-  thePageSize: number = 1;
+  thePageSize: number = 5;
   theTotalElements: number = 0;
 
+  previousKeyword: string="";
   constructor(private productService: ProductService,
-    private route: ActivatedRoute, private router: Router) { }
+    private cartService: CartService,
+    private route: ActivatedRoute,
+     private router: Router) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -41,9 +46,20 @@ export class ProductListComponent implements OnInit {
   handleSearchProducts() {
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword');
 
-    this.productService.getSearchList(theKeyword).subscribe(
+if(this.previousKeyword != theKeyword){
+this.thePageNumber=1;
+}
+this.previousKeyword = theKeyword;
+
+
+    this.productService.getSearchListPaginate(this.thePageNumber - 1,
+                                                    this.thePageSize,
+                                                    theKeyword).subscribe(
       data => {
-        this.products = data;
+         this.products = data.content;
+                  this.thePageNumber = data.number + 1;
+                  this.thePageSize = data.size;
+                  this.theTotalElements = data.totalPages;
       }
     )
   }
@@ -79,6 +95,18 @@ export class ProductListComponent implements OnInit {
 
  doSearch(value: string){
   this.router.navigateByUrl(`product/getInfo/${value}`);
+}
+
+updatePageSize(value: string){
+this.thePageSize=+value;
+this.thePageNumber=1;
+this.listProducts();
+}
+
+addToCart(product: Product){
+
+const theCartItem = new CartItem(product);
+this.cartService.addToCart(theCartItem);
 }
 
 }
