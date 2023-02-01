@@ -2,6 +2,12 @@ import { Component,OnInit } from '@angular/core';
 import { FormGroup,FormBuilder,FormControl, Validator, Validators } from '@angular/forms';
 import { ShopFormService } from 'src/app/services/shop-form.service';
 import { ShopValidators } from 'src/app/validators/shop-validators';
+import { CartService } from 'src/app/services/cart.service';
+import { CheckoutService } from 'src/app/services/checkout.service';
+import { Router } from '@angular/router';
+import { Purchase } from 'src/app/common/purchase';
+import { OrderItem} from 'src/app/common/order-item';
+import { Order } from 'src/app/common/order';
 
 @Component({
   selector: 'app-checkout',
@@ -18,10 +24,15 @@ creditCardYears: number[] = [];
 
 checkoutFormGroup: FormGroup;
 constructor(private formBuilder: FormBuilder,
-            private shopFormService: ShopFormService){
+            private shopFormService: ShopFormService,
+            private cartService: CartService,
+            private checkoutService: CheckoutService,
+            private router: Router){
 }
 
 ngOnInit(): void{
+this.reviewCartDetails();
+
 this.checkoutFormGroup = this.formBuilder.group({
 customer: this.formBuilder.group({
 firstName: new FormControl('',[Validators.required,Validators.minLength(2), ShopValidators.notOnlyWhiteSpace]),
@@ -47,8 +58,8 @@ cardType: new FormControl('',[Validators.required]),
 nameOnCard: new FormControl('',[Validators.required,Validators.minLength(2),ShopValidators.notOnlyWhiteSpace]),
 cardNumber: new FormControl('',[Validators.required,Validators.pattern('[0-9]{16}')]),
 securityCode: new FormControl('',[Validators.required,Validators.pattern('[0-9]{3}')]),
-expirationMonth: [''],
-expirationYear: ['']
+expirationMonth: new FormControl('',[Validators.required]),
+expirationYear: new FormControl('',[Validators.required])
 })
 })
 
@@ -70,8 +81,48 @@ this.creditCardYears = data;
 onSubmit(){
 //alert(this.checkoutFormGroup.get('customer').value.email);
 if(this.checkoutFormGroup.invalid){
+alert('test');
 this.checkoutFormGroup.markAllAsTouched();
+return;
 }
+
+let order = new Order();
+order.totalPrice = this.totalPrice;
+order.totalQuantity = this.totalQuantity;
+
+const cartItems = this.cartService.cartItems;
+
+let orderItems: OrderItem[] = cartItems.map(temp=> new OrderItem(temp));
+
+let purchase = new Purchase();
+
+purchase.customer = this.checkoutFormGroup.controls['customer'].value;
+
+purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+const shippingState: string = JSON.parse(JSON.stringify(purchase.shippingAddress.state));
+const shippingCountry: string = JSON.parse(JSON.stringify(purchase.shippingAddress.country));
+purchase.shippingAddress.state = shippingState;
+purchase.shippingAddress.country = shippingCountry;
+
+purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
+const billingState: string = JSON.parse(JSON.stringify(purchase.billingAddress.state));
+const billingCountry: string = JSON.parse(JSON.stringify(purchase.billingAddress.country));
+purchase.billingAddress.state = billingState;
+purchase.billingAddress.country = billingCountry;
+
+purchase.order = order;
+purchase.orderItems = orderItems;
+
+this.checkoutService.placeOrder(purchase).subscribe({
+next: response => {
+alert(`Your Order has been received.\nOrder Tracking Number:${response.orderTrackingNumber}`);
+this.resetCart();
+},
+error: err => {
+alert(`There was an error:${err.message}`);
+}
+});
+
 }
 
 get firstName(){ return this.checkoutFormGroup.get('customer.firstName');}
@@ -104,6 +155,16 @@ this.checkoutFormGroup.controls.billingAddress.reset();
 }
 }
 
+resetCart(){
+this.cartService.cartItems = [];
+this.cartService.totalQuantity.next(0);
+this.cartService.totalPrice.next(0);
+
+this.checkoutFormGroup.reset();
+
+this.router.navigateByUrl("/products");
+}
+
 handleMonthsAndYears(){
 const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
 const currentYear: number = new Date().getFullYear();
@@ -121,6 +182,16 @@ data=>{
 this.creditCardMonths = data;
 }
 );
+}
+
+reviewCartDetails(){
+this.cartService.totalQuantity.subscribe(
+ data=> this.totalQuantity = data
+);
+this.cartService.totalPrice.subscribe(
+data=> this.totalPrice = data
+);
+
 }
 
 }
