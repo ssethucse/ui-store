@@ -32,25 +32,41 @@
                     Last Name is required
                   </div>
                   <div *ngIf = "lastName.errors.minLength">
-                    Last Name atLeast 2 Characters Long!
+                    Last Name atLeast 1 Character Long!
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-2"> <label>email</label></div>
+            <div class="col-md-2"> <label>Phone Number</label></div>
+            <div class="col-md-9">
+              <div class="input-space">
+                <input formControlName="phone" type="text">
+                <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="alert alert-danger mt-1">
+                  <div *ngIf="phone.errors.required || phone.errors.notOnlyWhiteSpace">
+                    Phone Number is required
+                  </div>
+                  <div *ngIf = "phone.errors.minLength">
+                    Phone Number must be 10 digits Long
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2"> <label>Email</label></div>
             <div class="col-md-9">
               <div class="input-space">
                 <input formControlName="email" type="text">
-                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger mt-1">
+                <!--<div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger mt-1">
                   <div *ngIf="email.errors.required">
                     Email is required
                   </div>
                   <div *ngIf = "email.errors.pattern">
                     Email Address must be in valid Format.
                   </div>
-                </div>
+                </div>-->
               </div>
             </div>
           </div>
@@ -150,7 +166,7 @@
 
         <div class="input-space">
           <label class="au-checkbox">
-            <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event)">
+            <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event) ">
             <span class="au-checkmark"></span>Billing Address Same As Shipping Address
           </label>
         </div>
@@ -239,7 +255,7 @@
           </div>
         </div>
 
-        <div formGroupName="creditCard" class="form-area">
+        <!--<div formGroupName="creditCard" class="form-area">
           <h3>Credit Card</h3>
           <div class="row">
             <div class="col-md-2"> <label>Card Type</label></div>
@@ -332,7 +348,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
 
         <!-- Order Details-->
         <div class="form-area">
@@ -345,6 +361,7 @@
         <div class="text-center">
           <button type="submit" class="btn btn-info">Purchase</button>
         </div>
+
       </form>
     </div>
   </div>

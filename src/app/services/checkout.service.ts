@@ -7,8 +7,8 @@ import { Purchase } from 'src/app/common/purchase';
   providedIn: 'root'
 })
 export class CheckoutService {
+  private purchaseUrl = "http://localhost:8085/checkout/purchase";
 
-private purchaseUrl = "http://localhost:8085/checkout/purchase";
   constructor(private httpClient: HttpClient) { }
 
   placeOrder(purchase: Purchase): Observable<any>{

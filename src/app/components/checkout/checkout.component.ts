@@ -19,8 +19,8 @@ export class CheckoutComponent implements OnInit{
 totalPrice: number = 0;
 totalQuantity: number = 0;
 
-creditCardMonths: number[] = [];
-creditCardYears: number[] = [];
+/* creditCardMonths: number[] = [];
+creditCardYears: number[] = []; */
 
 checkoutFormGroup: FormGroup;
 constructor(private formBuilder: FormBuilder,
@@ -36,8 +36,10 @@ this.reviewCartDetails();
 this.checkoutFormGroup = this.formBuilder.group({
 customer: this.formBuilder.group({
 firstName: new FormControl('',[Validators.required,Validators.minLength(2), ShopValidators.notOnlyWhiteSpace]),
-lastName: new FormControl('',[Validators.required,Validators.minLength(2), ShopValidators.notOnlyWhiteSpace]),
-email: new FormControl('',[Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9._]+\\.[a-z]{2,4}$')])
+lastName: new FormControl('',[Validators.required,Validators.minLength(1), ShopValidators.notOnlyWhiteSpace]),
+phone: new FormControl('',[Validators.required,Validators.pattern('[0-9]{10}')]),
+email: new FormControl('')
+//email: new FormControl('',[Validators.required,Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9._]+\\.[a-z]{2,4}$')])
 }),
 shippingAddress: this.formBuilder.group({
 country: new FormControl('',[Validators.required,ShopValidators.notOnlyWhiteSpace]),
@@ -52,19 +54,19 @@ street: new FormControl('',[Validators.required,ShopValidators.notOnlyWhiteSpace
 city: new FormControl('',[Validators.required,ShopValidators.notOnlyWhiteSpace]),
 state: new FormControl('',[Validators.required,ShopValidators.notOnlyWhiteSpace]),
 zipCode: new FormControl('',[Validators.required,Validators.minLength(6),ShopValidators.notOnlyWhiteSpace]),
-}),
-creditCard: this.formBuilder.group({
+})
+/* creditCard: this.formBuilder.group({
 cardType: new FormControl('',[Validators.required]),
 nameOnCard: new FormControl('',[Validators.required,Validators.minLength(2),ShopValidators.notOnlyWhiteSpace]),
 cardNumber: new FormControl('',[Validators.required,Validators.pattern('[0-9]{16}')]),
 securityCode: new FormControl('',[Validators.required,Validators.pattern('[0-9]{3}')]),
 expirationMonth: new FormControl('',[Validators.required]),
 expirationYear: new FormControl('',[Validators.required])
-})
+}) */
 })
 
 //populate creditCard months
-const startMonth: number = new Date().getMonth()+1;
+/* const startMonth: number = new Date().getMonth()+1;
 
 this.shopFormService.getCreditCardMonths(startMonth).subscribe(
 data=>{
@@ -74,14 +76,14 @@ this.creditCardMonths = data;
 this.shopFormService.getCreditCardYears().subscribe(
 data=>{
 this.creditCardYears = data;
-});
+}); */
 
 }
 
 onSubmit(){
 //alert(this.checkoutFormGroup.get('customer').value.email);
 if(this.checkoutFormGroup.invalid){
-alert('test');
+//alert('test');
 this.checkoutFormGroup.markAllAsTouched();
 return;
 }
@@ -97,6 +99,7 @@ let orderItems: OrderItem[] = cartItems.map(temp=> new OrderItem(temp));
 let purchase = new Purchase();
 
 purchase.customer = this.checkoutFormGroup.controls['customer'].value;
+purchase.customer.identity = genUniqueId();
 
 purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
 const shippingState: string = JSON.parse(JSON.stringify(purchase.shippingAddress.state));
@@ -115,7 +118,8 @@ purchase.orderItems = orderItems;
 
 this.checkoutService.placeOrder(purchase).subscribe({
 next: response => {
-alert(`Your Order has been received.\nOrder Tracking Number:${response.orderTrackingNumber}`);
+//alert(`Your Order has been received.\nOrder Tracking Number:${response.orderTrackingNumber}`);
+alert(`Your Order has been received.\nWe will get back you soon.`);
 this.resetCart();
 },
 error: err => {
@@ -127,6 +131,7 @@ alert(`There was an error:${err.message}`);
 
 get firstName(){ return this.checkoutFormGroup.get('customer.firstName');}
 get lastName(){ return this.checkoutFormGroup.get('customer.lastName');}
+get phone(){ return this.checkoutFormGroup.get('customer.phone');}
 get email(){ return this.checkoutFormGroup.get('customer.email');}
 
 get shippingAddressStreet(){ return this.checkoutFormGroup.get('shippingAddress.street');}
@@ -142,10 +147,12 @@ get billingAddressZipCode(){ return this.checkoutFormGroup.get('billingAddress.z
 get billingAddressCountry(){ return this.checkoutFormGroup.get('billingAddress.country');}
 
 
+/*
 get creditCardType(){ return this.checkoutFormGroup.get('creditCard.cardType');}
 get creditCardNameOnCard(){ return this.checkoutFormGroup.get('creditCard.nameOnCard');}
 get creditCardNumber(){ return this.checkoutFormGroup.get('creditCard.cardNumber');}
 get creditCardSecurityCode(){ return this.checkoutFormGroup.get('creditCard.securityCode');}
+ */
 
 copyShippingAddressToBillingAddress(event){
 if(event.target.checked){
@@ -166,7 +173,7 @@ this.router.navigateByUrl("/products");
 }
 
 handleMonthsAndYears(){
-const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
+/* const creditCardFormGroup = this.checkoutFormGroup.get('creditCard');
 const currentYear: number = new Date().getFullYear();
 const selectedYear: number = Number(creditCardFormGroup.value.expirationYear);
 
@@ -181,7 +188,7 @@ this.shopFormService.getCreditCardMonths(startMonth).subscribe(
 data=>{
 this.creditCardMonths = data;
 }
-);
+); */
 }
 
 reviewCartDetails(){
@@ -191,7 +198,18 @@ this.cartService.totalQuantity.subscribe(
 this.cartService.totalPrice.subscribe(
 data=> this.totalPrice = data
 );
-
+}
 }
 
+function genUniqueId(): string {
+  const dateStr = Date
+    .now()
+    .toString(36); // convert num to base 36 and stringify
+
+  const randomStr = Math
+    .random()
+    .toString(36)
+    .substring(2, 8); // start at index 2 to skip decimal point
+
+  return `${dateStr}-${randomStr}`;
 }

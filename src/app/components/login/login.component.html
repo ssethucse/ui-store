@@ -1,0 +1,34 @@
+
+
+  <div fxLayout="row" fxLayoutAlign="center center" class="login-main">
+  <mat-card >
+
+    <mat-card-header>
+      <mat-card-title>Login Page</mat-card-title>
+    </mat-card-header>
+
+  <mat-card-content>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Phone Number</mat-label>
+    <input #box matInput placeholder="Enter your number" name="phone" (keypress)="keyPress($event)" (keyup) = "check(box.value)"
+           [(ngModel)] ="phone">
+  </mat-form-field>
+
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" (click)="otpCall()" [disabled]="isDisabled">Request Otp</button>
+    </mat-card-actions>
+
+  </mat-card-content>
+
+    <mat-card-actions align="end">
+      <mat-card>
+      <input #box matInput placeholder="Enter otp"  (keypress)="keyPress($event)" name="otp" [(ngModel)] ="otp">
+      </mat-card>
+      <button mat-raised-button color="primary" (click)="submit()">Login</button>
+    </mat-card-actions>
+
+  </mat-card>
+
+  <span> <button mat-button color="accent">{{errorMsg}}</button></span>
+  </div>
+

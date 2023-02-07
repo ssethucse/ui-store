@@ -214,7 +214,7 @@ section{
 }
 
 .au-input-xl{
-    min-width:935px
+    min-width:500px
 }
 
 input.au-input.au-input-xl{
@@ -1038,3 +1038,6 @@ footer ul li{
         padding:8px 0
     }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
