@@ -21,7 +21,7 @@ export class OrderHistoryComponent implements OnInit {
   handleOrderHistory(){
     const thePhone = JSON.parse(this.storage.getItem('phone'));
 
-    this.orderHistoryService.getOrderHistory(thePhone).subscribe(
+    this.orderHistoryService.getOrderHistory1(thePhone).subscribe(
       data => {
         this.orderHistoryList = data.content;
       }

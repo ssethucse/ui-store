@@ -51,7 +51,9 @@
           <td colspan="2"></td>
           <td style="font-weight: bold">
             <p>Total Quantity: {{ totalQuantity }}</p>
-            <p>Shipping Free</p>
+            <div *ngIf="shippingFees">
+              <p>Delivery Charges applicable for below 1000 Rupees.</p>
+            </div>
             <p>Total Price: {{ totalPrice | currency:'INR'}}</p>
             <div>
             <a routerLink="/checkout" class="btn btn-primary">Checkout</a>

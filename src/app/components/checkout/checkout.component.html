@@ -75,7 +75,7 @@
         <div formGroupName="shippingAddress" class="form-area">
           <h3>Shipping Address</h3>
 
-          <div class="row">
+          <!--<div class="row">
             <div class="col-md-2"> <label>Country</label></div>
             <div class="col-md-9">
               <div class="input-space">
@@ -93,7 +93,7 @@
 
               </div>
             </div>
-          </div>
+          </div>-->
           <div class="row">
             <div class="col-md-2"> <label>Street</label></div>
             <div class="col-md-9">
@@ -126,7 +126,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <!--<div class="row">
             <div class="col-md-2"> <label>State</label></div>
             <div class="col-md-9">
               <div class="input-space">
@@ -144,7 +144,7 @@
 
               </div>
             </div>
-          </div>
+          </div>-->
           <div class="row">
             <div class="col-md-2"> <label>Zip Code</label></div>
             <div class="col-md-9">
@@ -164,14 +164,14 @@
         </div>
 
 
-        <div class="input-space">
+       <!-- <div class="input-space">
           <label class="au-checkbox">
             <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event) ">
             <span class="au-checkmark"></span>Billing Address Same As Shipping Address
           </label>
-        </div>
+        </div>-->
 
-        <div formGroupName="billingAddress" class="form-area">
+      <!--  <div formGroupName="billingAddress" class="form-area">
           <h3>Billing Address</h3>
 
           <div class="row">
@@ -253,7 +253,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
 
         <!--<div formGroupName="creditCard" class="form-area">
           <h3>Credit Card</h3>
@@ -354,7 +354,9 @@
         <div class="form-area">
             <h3>Review Your Order</h3>
           <p>Total Quantity: {{ totalQuantity }}</p>
-          <p>Shipping Free</p>
+          <div *ngIf="shippingFees">
+          <p>Delivery Charges applicable for below 1000 Rupees.</p>
+          </div>
           <p>Total Price: {{ totalPrice | currency: 'INR'}}</p>
         </div>
 

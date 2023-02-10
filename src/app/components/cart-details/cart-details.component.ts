@@ -11,6 +11,7 @@ export class CartDetailsComponent {
 cartItems: CartItem[] = [];
 totalPrice: number = 0;
 totalQuantity: number = 0;
+shippingFees: boolean = true;
 
 constructor(private cartService: CartService){
 }
@@ -30,6 +31,10 @@ data=> this.totalQuantity = data
 );
 
 this.cartService.computeCartTotals();
+
+if(this.totalPrice>1000){
+   this.shippingFees = false;
+}
 
 }
 

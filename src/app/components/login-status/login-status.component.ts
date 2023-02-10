@@ -1,4 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 /* import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js'; */
 
@@ -16,7 +18,8 @@ orderHistory: boolean = false;
 storage: Storage = localStorage;
 
 constructor(/* private oktaAuthService: OktaAuthStateService,
-@Inject(OKTA_AUTH) private oktaAuth: OktaAuth */){}
+@Inject(OKTA_AUTH) private oktaAuth: OktaAuth */private route: ActivatedRoute,
+                                                             private router: Router){}
 
 ngOnInit(): void{
 /*   this.oktaAuthService.authState$.subscribe(
@@ -43,6 +46,9 @@ getUserDetails(){
 
 logout(){
   /* this.oktaAuth.signOut(); */
+  this.storage.clear();
+  location.reload();
+  this.router.navigateByUrl("product/getProducts");
 }
 
 }

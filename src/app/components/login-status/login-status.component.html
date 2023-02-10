@@ -3,12 +3,14 @@
     Welcome Back {{ userFullName }}!
   </div>
 
+  <div *ngIf="!orderHistory">
   <button  routerLink="/login" class="security-btn">Login</button> <!--*ngIf="!isAuthenticated"-->
+  </div>
 
-  <button *ngIf = "isAuthenticated" (click)="logout()" class="security-btn">Logout</button>
 
 <!--  <button routerLink = "/members" class="security-btn ml-1">Member</button>-->
   <div *ngIf="orderHistory">
       <button routerLink = "/order-history" class="security-btn ml-3" >Orders</button>
+      <button (click)="logout()" class="security-btn">Logout</button>
   </div>
 </div>

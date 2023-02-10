@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CartItem } from 'src/app/common/cart-item';
+import { Address } from 'src/app/common/address';
+import { CustomerProfile } from 'src/app/common/customer-profile';
 import { BehaviorSubject } from "rxjs";
 import { Subject } from "rxjs";
+import { Observable } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  private profileUrl = "http://localhost:8085/order/findCustomerProfile";
 
   cartItems: CartItem[] = [];
 
@@ -15,7 +21,7 @@ export class CartService {
 
   storage: Storage = localStorage;
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
     let data = JSON.parse(this.storage.getItem('cartItems'));
 
     if(data !=null){
@@ -24,6 +30,13 @@ export class CartService {
       this.computeCartTotals();
     }
   }
+
+  getProfile(phone: string): Observable<any>{
+
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("phone",phone);
+      return this.httpClient.get<CustomerProfile>(this.profileUrl,{params:queryParams});
+    }
 
   persistCartItems(){
     this.storage.setItem('cartItems',JSON.stringify(this.cartItems));

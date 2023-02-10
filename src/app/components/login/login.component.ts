@@ -88,7 +88,6 @@ message.otp = this.otp;
 customer.phone = this.phone;
 customer.identity = message.identity;
 
-alert(message.phone);
 if(message.phone==null){
   message.phone = JSON.parse(this.storage.getItem('phone'));
 }
@@ -100,7 +99,6 @@ this.storage.setItem('phone',JSON.stringify(message.phone));
 
 this.authService.getAuthenticateDetail(customer).subscribe({
 next: response => {
-//alert(`Authenticated Successfully.${response.data}`);
 this.storage.setItem('authToken',JSON.stringify(`${response.data}`));
 this.storage.setItem('orderHistory',JSON.stringify("true"));
 },
@@ -110,7 +108,8 @@ alert(`There was an error:${err.message}`);
 });
 
 
-
+ //window.location.reload();
+location.reload();
 //alert(`Login Successfully.${response.data}`);
 },
 error: err => {
@@ -156,14 +155,13 @@ this.storage.setItem('phone',JSON.stringify(this.phone));
 
 this.otpService.RequestOtp(message).subscribe({
 next: response => {
-alert(`Login Successfully.${response.data}`);
+this.errorMsg = "OTP has been sent Successfully, Please enter the same.";
 },
 error: err => {
 alert(`There was an error:${err.message}`);
 }
 });
 
-this.errorMsg = "OTP has been sent Successfully, Please enter the same.";
 }
 
 }

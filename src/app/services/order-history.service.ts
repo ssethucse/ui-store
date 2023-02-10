@@ -15,16 +15,22 @@ export class OrderHistoryService {
   private baseUrl = 'http://localhost:8085';
   constructor(private httpClient: HttpClient) { }
 
-  getOrderHistory(thePhone: string): Observable<GetResponseOrderHistory>{
+ /*  getOrderHistory(thePhone: string): Observable<GetResponseOrderHistory>{
      this.authToken = JSON.parse(this.storage.getItem('authToken'));
 
      const headers = new HttpHeaders({
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*,http://localhost:8085.com',
       'Authorization': `Bearer ${this.authToken}`
      })
      const orderHistoryUrl = `${this.baseUrl}/order/findByCustomerPhone/${thePhone}`;
      return this.httpClient.get<GetResponseOrderHistory>(orderHistoryUrl, { headers: headers });
-  }
+  } */
+
+  getOrderHistory1(thePhone: string): Observable<GetResponseOrderHistory>{
+       const orderHistoryUrl = `${this.baseUrl}/order/findByCustomerPhone/${thePhone}`;
+       return this.httpClient.get<GetResponseOrderHistory>(orderHistoryUrl);
+    }
 }
 
 interface GetResponseOrderHistory{
