@@ -30,6 +30,9 @@ import { MembersPageComponent } from './components/members-page/members-page.com
 
 import myAppConfig from './config/my-app-config';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { AlertComponent } from './components/alert/alert.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 /* const oktaConfig = myAppConfig.oidc;
 
@@ -45,6 +48,7 @@ const routes: Routes = [
 {path: 'members', component: MembersPageComponent/* , canActivate: [false], data: { onAuthRequired: sendToLoginPage } */},
 {path: 'login/callback', component: LoginComponent},
 {path: 'login', component: LoginComponent},
+{path: 'alert', component: AlertComponent},
 
 {path: 'checkout', component: CheckoutComponent},
 {path: 'cart-details', component: CartDetailsComponent},
@@ -52,8 +56,8 @@ const routes: Routes = [
 {path: 'product/getProducts/search/:keyword', component: ProductListComponent},
 {path: 'product/getProducts/:id', component: ProductListComponent},
 {path: 'product/getProducts', component: ProductListComponent},
-{path: '', redirectTo: '/products', pathMatch: 'full'},
-{path: '**', redirectTo: '/products', pathMatch: 'full'}
+{path: '', redirectTo: 'product/getProducts', pathMatch: 'full'},
+{path: '**', redirectTo: 'product/getProducts', pathMatch: 'full'}
 ];
 
 @NgModule({
@@ -69,7 +73,8 @@ const routes: Routes = [
     LoginComponent,
     LoginStatusComponent,
     MembersPageComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    AlertComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -80,7 +85,9 @@ const routes: Routes = [
   MatButtonModule,
   MatInputModule,
   FormsModule,
-  MatCardModule
+  MatCardModule,
+  BrowserAnimationsModule,
+  ToastrModule.forRoot()
     /* OktaAuthModule */
   ],
   providers: [ProductService/* , { provide: OKTA_CONFIG, useValue: { oktaAuth }} */],

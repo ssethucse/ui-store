@@ -97,30 +97,34 @@ next: response => {
 this.storage.setItem('identity',JSON.stringify(message.identity));
 this.storage.setItem('phone',JSON.stringify(message.phone));
 
-this.authService.getAuthenticateDetail(customer).subscribe({
+/* this.authService.getAuthenticateDetail(customer).subscribe({
 next: response => {
 this.storage.setItem('authToken',JSON.stringify(`${response.data}`));
 this.storage.setItem('orderHistory',JSON.stringify("true"));
 },
 error: err => {
-alert(`There was an error:${err.message}`);
+//alert(`There was an error:${err.message}`);
+ console.log(`There was an error:${err.message}`);
 }
-});
+}); */
 
+this.storage.setItem('orderHistory',JSON.stringify("true"));
 
  //window.location.reload();
 location.reload();
 //alert(`Login Successfully.${response.data}`);
 },
 error: err => {
-alert(`There was an error:${err.message}`);
+//alert(`There was an error:${err.message}`);
+ console.log(`There was an error:${err.message}`);
+this.router.navigateByUrl("/login");
 }
 });
 
 
 this.errorMsg="";
 this.router.navigateByUrl("product/getProducts");
-this.storage.setItem('orderHistory',JSON.stringify("true"));
+//this.storage.setItem('orderHistory',JSON.stringify("true"));
 }
 this.clear();
 }
@@ -149,7 +153,7 @@ otpCall(){
 
 let message = new MessageModel();
 message.phone = this.phone;
-message.identity = genUniqueId();
+//message.identity = genUniqueId();
 
 this.storage.setItem('phone',JSON.stringify(this.phone));
 
@@ -158,7 +162,8 @@ next: response => {
 this.errorMsg = "OTP has been sent Successfully, Please enter the same.";
 },
 error: err => {
-alert(`There was an error:${err.message}`);
+//alert(`There was an error:${err.message}`);
+ console.log(`There was an error:${err.message}`);
 }
 });
 

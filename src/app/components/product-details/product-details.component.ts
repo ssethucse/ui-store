@@ -37,7 +37,7 @@ this.product = data;
   }
 
   addToCart(){
-  alert(this.product.name);
+  //alert(this.product.name);
    const theCartItem = new CartItem(this.product);
    this.cartService.addToCart(theCartItem);
   }

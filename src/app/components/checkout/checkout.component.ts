@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { Purchase } from 'src/app/common/purchase';
 import { OrderItem} from 'src/app/common/order-item';
 import { Order } from 'src/app/common/order';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-checkout',
@@ -22,6 +23,7 @@ totalQuantity: number = 0;
 shippingFees: boolean = true;
 phones: string = null;
 customerValidate: boolean = false;
+checkDisk: boolean = false;
 
 address: Address = new Address();
 
@@ -36,7 +38,8 @@ constructor(private formBuilder: FormBuilder,
             private shopFormService: ShopFormService,
             private cartService: CartService,
             private checkoutService: CheckoutService,
-            private router: Router){
+            private router: Router,
+            private toastr: ToastrService){
 }
 
 ngOnInit(): void{
@@ -100,62 +103,67 @@ this.checkoutFormGroup.markAllAsTouched();
 return;
 }
 
-
-this.phones = JSON.parse(this.storage.getItem('phone'));
-
+this.phones = this.checkoutFormGroup.get('customer.phone').value;
+//this.phones = JSON.parse(this.storage.getItem('phone'));
+//alert(this.phones);
 this.checkoutService.validateCustomer(this.phones).subscribe({
 next: response => {
-if(response!=null && response.identity!=null && response.identity.length>0){
+ if(response!=null && response.identity!=null && response.identity.length>0){
 
-  let order = new Order();
-  order.totalPrice = this.totalPrice;
-  order.totalQuantity = this.totalQuantity;
+     let order = new Order();
+       order.totalPrice = this.totalPrice;
+       order.totalQuantity = this.totalQuantity;
 
-  const cartItems = this.cartService.cartItems;
+       const cartItems = this.cartService.cartItems;
 
-  let orderItems: OrderItem[] = cartItems.map(temp=> new OrderItem(temp));
+       let orderItems: OrderItem[] = cartItems.map(temp=> new OrderItem(temp));
 
-  let purchase = new Purchase();
+       let purchase = new Purchase();
 
-  purchase.customer = this.checkoutFormGroup.controls['customer'].value;
-  //purchase.customer.identity = genUniqueId();
+       purchase.customer = this.checkoutFormGroup.controls['customer'].value;
+       //purchase.customer.identity = genUniqueId();
 
-  purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
-  /* const shippingState: string = JSON.parse(JSON.stringify(purchase.shippingAddress.state));
-  const shippingCountry: string = JSON.parse(JSON.stringify(purchase.shippingAddress.country));
-  purchase.shippingAddress.state = shippingState;
-  purchase.shippingAddress.country = shippingCountry; */
+       purchase.shippingAddress = this.checkoutFormGroup.controls['shippingAddress'].value;
+       //const shippingState: string = JSON.parse(JSON.stringify(purchase.shippingAddress.state));
+       /* const shippingCountry: string = JSON.parse(JSON.stringify(purchase.shippingAddress.country));
+       purchase.shippingAddress.state = shippingState;
+       purchase.shippingAddress.country = shippingCountry;  */
 
-  /* purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
-  const billingState: string = JSON.parse(JSON.stringify(purchase.billingAddress.state));
-  const billingCountry: string = JSON.parse(JSON.stringify(purchase.billingAddress.country));
-  purchase.billingAddress.state = billingState;
-  purchase.billingAddress.country = billingCountry; */
+    /*    purchase.billingAddress = this.checkoutFormGroup.controls['billingAddress'].value;
+       const billingState: string = JSON.parse(JSON.stringify(purchase.billingAddress.state));
+       const billingCountry: string = JSON.parse(JSON.stringify(purchase.billingAddress.country));
+       purchase.billingAddress.state = billingState;
+       purchase.billingAddress.country = billingCountry; */
 
-  purchase.order = order;
-  purchase.orderItems = orderItems;
+       purchase.order = order;
+       purchase.orderItems = orderItems;
 
-  this.checkoutService.placeOrder(purchase).subscribe({
-  next: response => {
-  //alert(`Your Order has been received.\nOrder Tracking Number:${response.orderTrackingNumber}`);
-  alert(`Your Order has been received.\nWe will get back you soon.`);
-  this.resetCart();
+       this.checkoutService.placeOrder(purchase).subscribe({
+       next: response => {
+       //alert(`Your Order has been received.\nOrder Tracking Number:${response.orderTrackingNumber}`);
+       //alert(`Your Order has been received.\nWe will get back you soon.`);
+       this.resetCart();
+       this.toastr.success("Your Order has been received.\nWe will get back you soon.","Ordered Successfully!");
+       this.router.navigateByUrl("/order-history");
+       },
+       error: err => {
+       //alert(`There was an error:${err.message}`);
+       console.log(`There was an error:${err.message}`);
+       }
+       });
+    }else{
+    this.toastr.warning("Please Verify your mobile number.","Need Verification!");
+    this.router.navigateByUrl("login");
+   }
   },
-  error: err => {
-  alert(`There was an error:${err.message}`);
-  }
-  });
+ error: err => {
+ //alert(`There was an error:${err.message}`);
+ console.log(`There was an error:${err.message}`);
+ return;
+ }
+ });
 
 
-}else{
-  alert('Please Verify your mobile number');
-  this.router.navigateByUrl("/login");
-}
-},
-error: err => {
-alert(`There was an error:${err.message}`);
-}
-});
 
 }
 
@@ -201,7 +209,7 @@ this.cartService.totalPrice.next(0);
 
 this.checkoutFormGroup.reset();
 
-this.router.navigateByUrl("/products");
+this.router.navigateByUrl("/product/getProducts");
 }
 
 handleMonthsAndYears(){
@@ -239,6 +247,7 @@ if(this.totalPrice>1000){
 getAddressDetails(){
 this.phones = JSON.parse(this.storage.getItem('phone'));
 if(this.phones && this.phones.length>0){
+
 this.cartService.getProfile(this.phones).subscribe({
 next: response => {
 if(response!=null){
@@ -248,16 +257,23 @@ this.address.zipCode = response.shippingAddress.zipCode;
 
 this.checkoutFormGroup.get('customer.firstName').setValue(response.customer.firstName);
 this.checkoutFormGroup.get('customer.lastName').setValue(response.customer.lastName);
+if(response.customer.phone!=null){
+  this.checkDisk = true;
+}
 this.checkoutFormGroup.get('customer.phone').setValue(response.customer.phone);
 this.checkoutFormGroup.get('customer.email').setValue(response.customer.email);
 
 this.checkoutFormGroup.get('shippingAddress.city').setValue(response.shippingAddress.city);
 this.checkoutFormGroup.get('shippingAddress.street').setValue(response.shippingAddress.street);
 this.checkoutFormGroup.get('shippingAddress.zipCode').setValue(response.shippingAddress.zipCode);
+}else{
+this.checkoutFormGroup.get('customer.phone').setValue(this.phones);
+this.checkDisk = true;
 }
 },
 error: err => {
-alert(`There was an error:${err.message}`);
+//alert(`There was an error:${err.message}`);
+console.log(`There was an error:${err.message}`);
 }
 });
 }
