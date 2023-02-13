@@ -10,6 +10,7 @@ import { CartItem } from 'src/app/common/cart-item';
 export class CartDetailsComponent {
 cartItems: CartItem[] = [];
 totalPrice: number = 0;
+totalDiscount: number = 0;
 totalQuantity: number = 0;
 shippingFees: boolean = true;
 
@@ -24,6 +25,10 @@ this.cartItems = this.cartService.cartItems;
 
 this.cartService.totalPrice.subscribe(
 data=> this.totalPrice = data
+);
+
+this.cartService.totalDiscount.subscribe(
+data=> this.totalDiscount = data
 );
 
 this.cartService.totalQuantity.subscribe(

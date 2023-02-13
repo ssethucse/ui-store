@@ -1,7 +1,41 @@
 <div class="main-content">
-  <div align="center" class="alert alert-warning col-md-12" role="alert">
-    <h3>Member Special</h3>
-    <p>Thank you for being a member.</p>
-    <p>Member discounts are coming soon!</p>
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <h3>Your Orders</h3>
+
+      <div *ngIf="orderHistoryList.length>0">
+
+        <table class="table table-bordered">
+          <tr>
+            <th width="20%">Order Tracking Number</th>
+            <th width="10%">Total Price</th>
+            <th width="10%">Total Quantity</th>
+            <th width="10%">Date</th>
+            <th width="10%">Status</th>
+            <th width="10%">Phone</th>
+            <th width="10%">Action</th>
+          </tr>
+
+
+          <tr *ngFor = "let temp of orderHistoryList">
+            <td>{{temp.orderTrackingNumber}}</td>
+            <td>{{temp.totalPrice | currency: 'INR'}}</td>
+            <td>{{temp.totalQuantity}}</td>
+            <td>{{temp.dateCreated | date: 'medium'}}</td>
+            <td>{{temp.status}}</td>
+            <td>{{temp.phone}}</td>
+            <div>
+            <td><button  (click) ="updateStatus(temp.orderTrackingNumber)" class="btn btn-primary btn-sm">Update</button></td>
+            </div>
+          </tr>
+
+        </table>
+      </div>
+
+      <div *ngIf="orderHistoryList.length==0" class="alert alert-warning col-md-12" role="alert">
+        No Orders Found.
+      </div>
+
+    </div>
   </div>
 </div>

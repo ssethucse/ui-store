@@ -355,6 +355,7 @@
             <h3>Review Your Order</h3>
           <p>Total Quantity: {{ totalQuantity }}</p>
           <p>Total Price: {{ totalPrice | currency: 'INR'}}</p>
+          <p>Total Discount: {{ totalDiscount | currency: 'INR'}}</p>
 
           <div *ngIf="shippingFees"><hr>
             <p><b>Delivery Charges applicable for below 1000 Rupees.</b></p>

@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { Customer } from 'src/app/common/customer';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 /* import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
 import { OktaAuth } from '@okta/okta-auth-js'; */
 
@@ -14,12 +16,14 @@ export class LoginStatusComponent implements OnInit{
 isAuthenticated: boolean = false;
 userFullName: string = '';
 orderHistory: boolean = false;
+memberShow: boolean = false;
 
 storage: Storage = localStorage;
 
 constructor(/* private oktaAuthService: OktaAuthStateService,
 @Inject(OKTA_AUTH) private oktaAuth: OktaAuth */private route: ActivatedRoute,
-                                                             private router: Router){}
+                                                private authService: AuthServiceService,
+                                                private router: Router){}
 
 ngOnInit(): void{
 /*   this.oktaAuthService.authState$.subscribe(
@@ -28,6 +32,23 @@ ngOnInit(): void{
       this.getUserDetails();
     }
   ); */
+
+  let customer = new Customer();
+  customer.phone = JSON.parse(this.storage.getItem('phone'));
+  customer.identity = JSON.parse(this.storage.getItem('identity'));
+
+  if(customer.phone == '9944370922' && customer.identity == '870306080171'){
+  this.authService.getAuthenticateDetail(customer).subscribe({
+  next: response => {
+    this.memberShow = true;
+  },
+  error: err => {
+   this.memberShow = false;
+   console.log(`There was an error:${err.message}`);
+  }
+  });
+  }
+
   this.orderHistory = JSON.parse(this.storage.getItem('orderHistory'));
 }
 
@@ -49,6 +70,7 @@ logout(){
   this.storage.clear();
   location.reload();
   this.router.navigateByUrl("product/getProducts");
+  this.memberShow = false;
 }
 
 }

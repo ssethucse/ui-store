@@ -19,6 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 export class CheckoutComponent implements OnInit{
 
 totalPrice: number = 0;
+totalDiscount: number = 0;
 totalQuantity: number = 0;
 shippingFees: boolean = true;
 phones: string = null;
@@ -206,6 +207,7 @@ resetCart(){
 this.cartService.cartItems = [];
 this.cartService.totalQuantity.next(0);
 this.cartService.totalPrice.next(0);
+this.cartService.totalDiscount.next(0);
 
 this.checkoutFormGroup.reset();
 
@@ -237,6 +239,9 @@ this.cartService.totalQuantity.subscribe(
 );
 this.cartService.totalPrice.subscribe(
 data=> this.totalPrice = data
+);
+this.cartService.totalDiscount.subscribe(
+data=> this.totalDiscount = data
 );
 if(this.totalPrice>1000){
    this.shippingFees = false;

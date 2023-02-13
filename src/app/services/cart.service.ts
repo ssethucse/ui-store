@@ -17,6 +17,7 @@ export class CartService {
   cartItems: CartItem[] = [];
 
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
+  totalDiscount: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
   storage: Storage = localStorage;
@@ -48,10 +49,10 @@ export class CartService {
 
   if(this.cartItems.length>0){
 
-existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id === theCartItem.id )
+    existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id === theCartItem.id )
 
     alreadyExistInCart = (existingCartItem != undefined);
-   }
+  }
 
    if(alreadyExistInCart){
    existingCartItem.quantity++;
@@ -63,14 +64,17 @@ existingCartItem = this.cartItems.find(tempCartItem => tempCartItem.id === theCa
 
   computeCartTotals(){
   let totalPriceValue: number = 0;
+  let totalDiscountValue: number = 0;
   let totalQuantityValue: number = 0;
 
   for(let currentCartItem of this.cartItems){
-  totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
+  totalPriceValue += currentCartItem.quantity * currentCartItem.discountPrice;
+  totalDiscountValue += currentCartItem.quantity * (currentCartItem.unitPrice-currentCartItem.discountPrice);
   totalQuantityValue += currentCartItem.quantity;
   }
 
   this.totalPrice.next(totalPriceValue);
+  this.totalDiscount.next(totalDiscountValue);
   this.totalQuantity.next(totalQuantityValue);
 
   this.persistCartItems();

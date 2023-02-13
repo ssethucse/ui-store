@@ -8,7 +8,10 @@
   </div>
 
 
-<!--  <button routerLink = "/members" class="security-btn ml-1">Member</button>-->
+  <div *ngIf="memberShow">
+  <button routerLink = "/members" class="security-btn ml-1">Member</button>
+  </div>
+
   <div *ngIf="orderHistory">
       <button routerLink = "/order-history" class="security-btn ml-3" >Orders</button>
       <button (click)="logout()" class="security-btn">Logout</button>
