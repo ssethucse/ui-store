@@ -21,6 +21,8 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './components/login/login.component';
 import { LoginStatusComponent } from './components/login-status/login-status.component';
+import { AuthInterceptorService } from 'src/app/services/auth-interceptor.service';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 /* import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
 import { OktaAuth } from '@Okta/okta-auth-js'; */
@@ -33,6 +35,7 @@ import { OrderHistoryComponent } from './components/order-history/order-history.
 import { AlertComponent } from './components/alert/alert.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { AboutComponent } from './components/about/about.component';
 
 /* const oktaConfig = myAppConfig.oidc;
 
@@ -49,6 +52,7 @@ const routes: Routes = [
 {path: 'login/callback', component: LoginComponent},
 {path: 'login', component: LoginComponent},
 {path: 'alert', component: AlertComponent},
+{path: 'about', component: AboutComponent},
 
 {path: 'checkout', component: CheckoutComponent},
 {path: 'cart-details', component: CartDetailsComponent},
@@ -74,7 +78,8 @@ const routes: Routes = [
     LoginStatusComponent,
     MembersPageComponent,
     OrderHistoryComponent,
-    AlertComponent
+    AlertComponent,
+    AboutComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -90,7 +95,8 @@ const routes: Routes = [
   ToastrModule.forRoot()
     /* OktaAuthModule */
   ],
-  providers: [ProductService/* , { provide: OKTA_CONFIG, useValue: { oktaAuth }} */],
+  providers: [ProductService , { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
+  /* , { provide: OKTA_CONFIG, useValue: { oktaAuth }} */],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

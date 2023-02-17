@@ -100,20 +100,17 @@ if(message.phone==null){
 
 this.otpService.ValidateOtp(message).subscribe({
 next: response => {
-this.storage.setItem('identity',JSON.stringify(message.identity));
-this.storage.setItem('phone',JSON.stringify(message.phone));
+  this.storage.setItem('identity',JSON.stringify(message.identity));
+  this.storage.setItem('phone',JSON.stringify(message.phone));
 
-/* this.authService.getAuthenticateDetail(customer).subscribe({
-next: response => {
-this.storage.setItem('authToken',JSON.stringify(`${response.data}`));
-this.storage.setItem('orderHistory',JSON.stringify("true"));
-},
-error: err => {
-//alert(`There was an error:${err.message}`);
- console.log(`There was an error:${err.message}`);
-}
-}); */
-
+  this.authService.getAuthenticateDetail(customer).subscribe({
+  next: response => {
+    this.storage.setItem('authToken',JSON.stringify(`${response.data}`));
+  },
+  error: err => {
+    console.log(`There was an error:${err.message}`);
+  }
+  });
 this.storage.setItem('orderHistory',JSON.stringify("true"));
 
  //window.location.reload();
@@ -189,5 +186,4 @@ function genUniqueId(): string {
 
   return `${dateStr}-${randomStr}`;
 }
-
 

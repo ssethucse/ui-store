@@ -23,7 +23,8 @@ storage: Storage = localStorage;
 constructor(/* private oktaAuthService: OktaAuthStateService,
 @Inject(OKTA_AUTH) private oktaAuth: OktaAuth */private route: ActivatedRoute,
                                                 private authService: AuthServiceService,
-                                                private router: Router){}
+                                                private router: Router){
+                                                }
 
 ngOnInit(): void{
 /*   this.oktaAuthService.authState$.subscribe(
@@ -68,9 +69,9 @@ getUserDetails(){
 logout(){
   /* this.oktaAuth.signOut(); */
   this.storage.clear();
+  this.memberShow = false;
   location.reload();
   this.router.navigateByUrl("product/getProducts");
-  this.memberShow = false;
 }
 
 }

@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ui-store';
+
+  contacts(){
+    alert("test");
+  }
 }

@@ -12,7 +12,7 @@ const httpOptions = {
   })
 };
 
- httpOptions.headers = httpOptions.headers.set('Access-Control-Allow-Origin', 'http://localhost:4200');
+ httpOptions.headers = httpOptions.headers.set('Access-Control-Allow-Origin', 'http://localhost:8085');
 
 @Injectable({
   providedIn: 'root'
@@ -24,9 +24,7 @@ export class AuthServiceService {
   constructor(private httpClient: HttpClient) { }
 
   getAuthenticateDetail(customer: Customer): Observable<any>{
-     return this.httpClient.post<any>(this.baseUrl,customer).pipe(
-                                                                  map(response=> response)
-                                                                  );
+     return this.httpClient.post<any>(this.baseUrl,customer).pipe(map(response=> response));
   }
 
 }

@@ -18,11 +18,11 @@ export class OtpService {
        return this.httpClient.post<any>(`${this.baseUrl}/sendOtp`,message).pipe(
                                                                   map(response=> response)
                                                                   );
-    }
+   }
 
      ValidateOtp(message: MessageModel): Observable<any>{
            return this.httpClient.post<any>(`${this.baseUrl}/validateOtp`,message).pipe(
                                                                       map(response=> response)
                                                                       );
-        }
+   }
 }
