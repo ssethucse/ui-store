@@ -53,7 +53,8 @@ getProductCategories(): Observable<ProductCategory[]>{
   content:  Product[],
   totalPages: number,
   size: number,
-  number: number
+  number: number,
+  totalElements: number
   }
 
 

@@ -19,7 +19,7 @@ export class ProductListComponent implements OnInit {
   searchMode: boolean = false;
 
   thePageNumber: number = 1;
-  thePageSize: number = 5;
+  thePageSize: number = 10;
   theTotalElements: number = 0;
 
   previousKeyword: string="";
@@ -59,7 +59,7 @@ this.previousKeyword = theKeyword;
          this.products = data.content;
                   this.thePageNumber = data.number + 1;
                   this.thePageSize = data.size;
-                  this.theTotalElements = data.totalPages;
+                  this.theTotalElements = data.totalElements;
       }
     )
   }
@@ -87,7 +87,7 @@ this.previousKeyword = theKeyword;
           this.products = data.content;
           this.thePageNumber = data.number + 1;
           this.thePageSize = data.size;
-          this.theTotalElements = data.totalPages;
+          this.theTotalElements = data.totalElements;
         }
       )
   }
