@@ -50,13 +50,17 @@
         </tr>
         <tr>
           <td colspan="2"></td>
-          <td style="font-weight: bold">
+          <td>
             <p>Total Quantity: {{ totalQuantity }}</p>
-            <div *ngIf="shippingFees">
-              <p>Delivery Charges applicable for below 1000 Rupees.</p>
-            </div>
-            <p>Total Price: {{ totalPrice | currency:'INR'}}</p>
+            <p>Total MRP: {{ totalDiscount+totalPrice | currency:'INR'}}</p>
             <p>Total Discount: {{ totalDiscount | currency:'INR'}}</p>
+            <p><b>Grand Total: {{ totalPrice | currency:'INR'}}</b></p>
+
+            <div *ngIf="shippingFees">
+              <hr>
+              <h4>Delivery Charges:</h4>
+              <p>Applicable for below 1000 Rupees.</p>
+            </div>
             <div>
             <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
             </div>
