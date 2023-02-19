@@ -7,12 +7,14 @@ import { Subject } from "rxjs";
 import { Observable } from 'rxjs';
 import { HttpParams } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private profileUrl = "http://localhost:8085/order/findCustomerProfile";
+  private profileUrl = environment.baseUrl + '/order/findCustomerProfile';
+  //private profileUrl = "http://localhost:8085/order/findCustomerProfile";
 
   cartItems: CartItem[] = [];
 

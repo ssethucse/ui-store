@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { OrderHistory } from '../common/order-history';
 import { HttpHeaders } from '@angular/common/http';
 import { HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class OrderHistoryService {
  authToken: string;
  storage: Storage = localStorage;
 
-  private baseUrl = 'http://localhost:8085';
+  private baseUrl = environment.baseUrl;
+  //private baseUrl = 'http://localhost:8085';
   constructor(private httpClient: HttpClient) { }
 
  /*  getOrderHistory(thePhone: string): Observable<GetResponseOrderHistory>{

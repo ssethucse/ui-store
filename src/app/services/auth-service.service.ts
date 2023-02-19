@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Customer } from '../common/customer';
 import { map } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http'
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -19,12 +20,13 @@ const httpOptions = {
 })
 
 export class AuthServiceService {
-  private baseUrl = 'http://localhost:8085/authenticate';
+  private authUrl = environment.baseUrl + '/authenticate';
+  //private baseUrl = 'http://localhost:8085/authenticate';
 
   constructor(private httpClient: HttpClient) { }
 
   getAuthenticateDetail(customer: Customer): Observable<any>{
-     return this.httpClient.post<any>(this.baseUrl,customer).pipe(map(response=> response));
+     return this.httpClient.post<any>(this.authUrl,customer).pipe(map(response=> response));
   }
 
 }
