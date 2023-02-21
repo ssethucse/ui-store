@@ -53,6 +53,9 @@ constructor( private route: ActivatedRoute,
     scopes: myAppConfig.oidc.scopes
   }
 }); */
+if(JSON.parse(this.storage.getItem('phone'))!=null){
+  this.phone = JSON.parse(this.storage.getItem('phone'));
+}
 }
 
 ngOnInit(): void{
@@ -109,6 +112,8 @@ next: response => {
   },
   error: err => {
     console.log(`There was an error:${err.message}`);
+    this.storage.setItem('phone',JSON.stringify(message.phone));
+    return;
   }
   });
 this.storage.setItem('orderHistory',JSON.stringify("true"));

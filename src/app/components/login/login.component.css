@@ -26,3 +26,8 @@
         display: flex;
         justify-content: flex-end;
       }
+
+.image_block {
+    text-align: center;
+    vertical-align: top;
+}
