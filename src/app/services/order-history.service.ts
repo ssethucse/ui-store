@@ -42,7 +42,11 @@ export class OrderHistoryService {
 
   updateOrder(id: string): Observable<any>{
       return this.httpClient.post<any>(`${this.baseUrl}/order/status/upgrade`,id);
-    }
+  }
+
+  updateInvoice(id: string): Observable<any>{
+      return this.httpClient.post<any>(`${this.baseUrl}/order/invoice`,id);
+  }
 }
 
 interface GetResponseOrderHistory{

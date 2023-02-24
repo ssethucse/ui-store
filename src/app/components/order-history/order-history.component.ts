@@ -63,6 +63,8 @@ export class OrderHistoryComponent implements OnInit {
        if(err.status == 401){
         this.storage.setItem('authError',JSON.stringify("true"));
         this.authError = 'Not Authenticated! Please login again.';
+       }else{
+        this.authError = 'No Records Found.Please Create the Order.';
        }
       }
       });

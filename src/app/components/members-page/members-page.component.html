@@ -26,6 +26,7 @@
             <td>{{temp.phone}}</td>
             <div>
             <td><button  (click) ="updateStatus(temp.orderTrackingNumber)" class="btn btn-primary btn-sm">Update</button></td>
+              <td><button  (click) ="invoiceDetails(temp.orderTrackingNumber)" class="btn btn-primary btn-sm">Details</button></td>
             </div>
           </tr>
 
@@ -34,6 +35,31 @@
 
       <div *ngIf="orderHistoryList.length==0" class="alert alert-warning col-md-12" role="alert">
         No Orders Found.
+      </div>
+
+
+      <div *ngIf="orderHistoryList.length>0">
+
+        <table class="table table-bordered">
+          <tr>
+            <th width="20%">Name</th>
+            <th width="10%">quantity</th>
+            <th width="10%">price</th>
+            <th width="10%">Street</th>
+            <th width="10%">Location</th>
+            <th width="10%">ZipCode</th>
+          </tr>
+
+          <tr *ngFor = "let temp of orderInvoiceList">
+            <td>{{temp.name}}</td>
+            <td>{{temp.quantity }}</td>
+            <td>{{temp.price | currency: 'INR' }}</td>
+            <td>{{temp.street}}</td>
+            <td>{{temp.location}}</td>
+            <td>{{temp.zip}}</td>
+          </tr>
+
+        </table>
       </div>
 
     </div>

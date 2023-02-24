@@ -8,6 +8,7 @@ import { Customer } from 'src/app/common/customer';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { OtpService } from 'src/app/services/otp.service';
 import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 /* import { OktaAuth } from '@okta/okta-auth-js';
 import { OKTA_AUTH } from '@okta/okta-angular';
 import OktaSignIn from '@okta/okta-signin-widget'; */
@@ -35,9 +36,11 @@ storage: Storage = localStorage;
 constructor( private route: ActivatedRoute,
              private router: Router,
              private otpService: OtpService,
-             private authService: AuthServiceService
+             private authService: AuthServiceService,
+             private toastr: ToastrService
 /* @Inject(OKTA_AUTH) private oktaAuth: OktaAuth */){
 
+ this.storage.setItem('authError',JSON.stringify("true"));
  if(JSON.parse(this.storage.getItem('orderHistory'))){
    this.router.navigateByUrl("product/getProducts");
  }
@@ -55,6 +58,7 @@ constructor( private route: ActivatedRoute,
 }); */
 if(JSON.parse(this.storage.getItem('phone'))!=null){
   this.phone = JSON.parse(this.storage.getItem('phone'));
+  this.isDisabled = false;
 }
 }
 
@@ -109,10 +113,12 @@ next: response => {
   this.authService.getAuthenticateDetail(customer).subscribe({
   next: response => {
     this.storage.setItem('authToken',JSON.stringify(`${response.data}`));
+    this.storage.setItem('authError',JSON.stringify("false"));
   },
   error: err => {
     console.log(`There was an error:${err.message}`);
     this.storage.setItem('phone',JSON.stringify(message.phone));
+    this.errorMsg = "OTP is wrong, please enter correct one."
     return;
   }
   });
@@ -120,18 +126,21 @@ this.storage.setItem('orderHistory',JSON.stringify("true"));
 
  //window.location.reload();
 location.reload();
+this.router.navigateByUrl("product/getProducts");
 //alert(`Login Successfully.${response.data}`);
 },
 error: err => {
 //alert(`There was an error:${err.message}`);
  console.log(`There was an error:${err.message}`);
-this.router.navigateByUrl("/login");
+//this.router.navigateByUrl("/login");
+    this.errorMsg = "OTP is wrong, please enter correct one."
+return;
 }
 });
 
 
-this.errorMsg="";
-this.router.navigateByUrl("product/getProducts");
+//this.errorMsg="";
+//this.router.navigateByUrl("product/getProducts");
 //this.storage.setItem('orderHistory',JSON.stringify("true"));
 }
 this.clear();
@@ -165,9 +174,24 @@ message.phone = this.phone;
 
 this.storage.setItem('phone',JSON.stringify(this.phone));
 
+if(this.storage.getItem('oco') && this.storage.getItem('today')
+            && parseInt(this.storage.getItem('oco')) === 5 && this.storage.getItem('today') == JSON.stringify(new Date().toISOString().split('T')[0]))
+{
+  this.toastr.warning("Exceeds the OTP limit Today.\nPlease try on tomorrow.","OTP Exceeds!");
+  return;
+}else{
+    if(this.storage.getItem('oco')!=null && parseInt(this.storage.getItem('oco'))<5){
+      this.storage.setItem('oco',JSON.stringify(parseInt(this.storage.getItem('oco')) + 1));
+    }else{
+      this.storage.setItem('today',JSON.stringify(new Date().toISOString().split('T')[0]));
+      this.storage.setItem('oco',JSON.stringify(1));
+    }
+}
+
 this.otpService.RequestOtp(message).subscribe({
 next: response => {
 this.errorMsg = "OTP has been sent Successfully, Please enter the same.";
+this.isDisabled = true;
 },
 error: err => {
 //alert(`There was an error:${err.message}`);

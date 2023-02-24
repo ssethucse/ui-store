@@ -98,10 +98,18 @@ this.creditCardYears = data;
 
 onSubmit(){
 //alert(this.checkoutFormGroup.get('customer').value.email);
+let location: string[]=['600106','600094','600034','600030','600026','600093','600024','600092','600102','600107','600010','600040','600031','600029'];
+
 if(this.checkoutFormGroup.invalid){
 //alert('test');
 this.checkoutFormGroup.markAllAsTouched();
 return;
+}
+
+
+if(!location.includes(this.checkoutFormGroup.get('shippingAddress.zipCode').value)){
+  this.toastr.info("Currently we are not serving to this location.\nWe will get back you soon.","Invalid Location!");
+  //this.router.navigateByUrl("/product/getProducts");
 }
 
 this.phones = this.checkoutFormGroup.get('customer.phone').value;

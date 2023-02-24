@@ -19,7 +19,7 @@ export class AuthInterceptorService implements HttpInterceptor{
   }
 
   private async handleAccess(req: HttpRequest<any>, next: HttpHandler): Promise<HttpEvent<any>>{
-    const urlOrder = ['order/findByCustomerPhone','order/findAllOrders','order/status/upgrade','order/findCustomerProfile'];
+    const urlOrder = ['order/findByCustomerPhone','order/findAllOrders','order/status/upgrade','order/findCustomerProfile','order/invoice'];
 
     if(urlOrder.some(url => req.urlWithParams.includes(url))){
     /* let customer = new Customer();

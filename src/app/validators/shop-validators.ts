@@ -9,4 +9,5 @@ return { 'notOnlyWhiteSpace': true };
 return null;
 }
 }
+
 }
