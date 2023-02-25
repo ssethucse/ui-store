@@ -218,6 +218,7 @@ this.cartService.totalPrice.next(0);
 this.cartService.totalDiscount.next(0);
 
 this.checkoutFormGroup.reset();
+this.storage.removeItem('cartItems');
 
 this.router.navigateByUrl("/product/getProducts");
 }
