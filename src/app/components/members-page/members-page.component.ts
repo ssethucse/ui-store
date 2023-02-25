@@ -3,6 +3,7 @@ import { OrderResp } from 'src/app/common/order-resp';
 import { OrderHistory } from 'src/app/common/order-history';
 import { OrderHistoryService } from 'src/app/services/order-history.service';
 import { InvoiceHistory } from 'src/app/common/invoice-history';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-members-page',
@@ -13,7 +14,8 @@ export class MembersPageComponent implements OnInit {
 orderHistoryList: OrderResp[]=[];
 orderInvoiceList: InvoiceHistory[]=[];
 
-constructor(private orderHistoryService: OrderHistoryService){}
+constructor(private orderHistoryService: OrderHistoryService,
+            private router: Router){}
 
  ngOnInit(): void {
     this.handleOrderHistory();
@@ -33,7 +35,8 @@ constructor(private orderHistoryService: OrderHistoryService){}
          console.log(data);
        }
      );
-     location.reload();
+     this.router.navigateByUrl("/product/getProducts");
+    //location.reload();
  }
  invoiceDetails(id: string){
    this.orderHistoryService.updateInvoice(id).subscribe(

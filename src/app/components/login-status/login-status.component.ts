@@ -70,7 +70,7 @@ logout(){
   /* this.oktaAuth.signOut(); */
   this.storage.clear();
   this.memberShow = false;
-  location.reload();
+  //location.reload();
   this.router.navigateByUrl("product/getProducts");
 }
 
