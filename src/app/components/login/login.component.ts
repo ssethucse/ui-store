@@ -9,9 +9,7 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { OtpService } from 'src/app/services/otp.service';
 import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-/* import { OktaAuth } from '@okta/okta-auth-js';
-import { OKTA_AUTH } from '@okta/okta-angular';
-import OktaSignIn from '@okta/okta-signin-widget'; */
+
 
 import myAppConfig from '../../config/my-app-config';
 
@@ -21,8 +19,6 @@ import myAppConfig from '../../config/my-app-config';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent  implements OnInit{
-
-/* oktaSignin: any; */
 
 username : string ="";
 password : string ="";
@@ -37,45 +33,24 @@ constructor( private route: ActivatedRoute,
              private router: Router,
              private otpService: OtpService,
              private authService: AuthServiceService,
-             private toastr: ToastrService
-/* @Inject(OKTA_AUTH) private oktaAuth: OktaAuth */){
+             private toastr: ToastrService){
 
  this.storage.setItem('authError',JSON.stringify("true"));
  if(JSON.parse(this.storage.getItem('orderHistory'))){
    this.router.navigateByUrl("product/getProducts");
  }
 
-/* this.oktaSignin = new OktaSignIn({
-  logo: 'assets/images/logo.png',
-  baseUrl: myAppConfig.oidc.issuer.split('/oauth2')[0],
-  clientId: myAppConfig.oidc.clientId,
-  redirectUri: myAppConfig.oidc.redirectUri,
-  authParams: {
-    pkce: true,
-    issuer: myAppConfig.oidc.issuer,
-    scopes: myAppConfig.oidc.scopes
-  }
-}); */
 if(JSON.parse(this.storage.getItem('phone'))!=null){
   this.phone = JSON.parse(this.storage.getItem('phone'));
   this.isDisabled = false;
 }
+
 }
 
 ngOnInit(): void{
-  /* this.oktaSignin.remove();
-
-  this.oktaSignin.renderEl({
-    el: '#okta-sign-in-widget'},
-    (response: any)=>{
-      if(response.status=== 'SUCCESS'){
-        this.oktaAuth.signInWithRedirect();
-      }
-    },
-    (error: any) => {
-      throw error;
-     }
-    ); */
+/* this.router.navigateByUrl('/LoginStatusComponent', { skipLocationChange: false }).then(() => {
+    //this.router.navigate(['product/getProducts']);
+}); */
 }
 
 
@@ -125,22 +100,23 @@ next: response => {
 this.storage.setItem('orderHistory',JSON.stringify("true"));
 
  //window.location.reload();
-location.reload();
-this.router.navigateByUrl("product/getProducts");
+  window.location.href = window.location.href;
+//location.reload();
+//this.router.navigateByUrl("product/getProducts");
 //alert(`Login Successfully.${response.data}`);
 },
 error: err => {
 //alert(`There was an error:${err.message}`);
  console.log(`There was an error:${err.message}`);
 //this.router.navigateByUrl("/login");
-    this.errorMsg = "OTP is wrong, please enter correct one."
+ this.errorMsg = "OTP is wrong, please enter correct one."
 return;
 }
 });
 
 
 //this.errorMsg="";
-//this.router.navigateByUrl("product/getProducts");
+this.router.navigateByUrl("product/getProducts");
 //this.storage.setItem('orderHistory',JSON.stringify("true"));
 }
 this.clear();

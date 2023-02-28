@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Customer } from 'src/app/common/customer';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
-/* import { OktaAuthStateService, OKTA_AUTH } from '@okta/okta-angular';
-import { OktaAuth } from '@okta/okta-auth-js'; */
 
 @Component({
   selector: 'app-login-status',
@@ -20,20 +18,12 @@ memberShow: boolean = false;
 
 storage: Storage = localStorage;
 
-constructor(/* private oktaAuthService: OktaAuthStateService,
-@Inject(OKTA_AUTH) private oktaAuth: OktaAuth */private route: ActivatedRoute,
-                                                private authService: AuthServiceService,
-                                                private router: Router){
+constructor(private route: ActivatedRoute,
+            private authService: AuthServiceService,
+            private router: Router){
                                                 }
 
 ngOnInit(): void{
-/*   this.oktaAuthService.authState$.subscribe(
-    (result)=> {
-      this.isAuthenticated = result.isAuthenticated;
-      this.getUserDetails();
-    }
-  ); */
-
   let customer = new Customer();
   customer.phone = JSON.parse(this.storage.getItem('phone'));
   customer.identity = JSON.parse(this.storage.getItem('identity'));
@@ -54,23 +44,15 @@ ngOnInit(): void{
 }
 
 getUserDetails(){
-/*   if(this.isAuthenticated){
-    this.oktaAuth.getUser().then(
-      (res)=> {
-        this.userFullName = res.user as string;
-
-        const theEmail = res.email;
-        this.storage.setItem('userEmail',JSON.stringify(theEmail));
-      }
-    );
-  } */
+this.ngOnInit();
 }
 
 logout(){
-  /* this.oktaAuth.signOut(); */
   this.storage.clear();
   this.memberShow = false;
   //location.reload();
+  //window.location.reload();
+  window.location.href = window.location.href;
   this.router.navigateByUrl("product/getProducts");
 }
 

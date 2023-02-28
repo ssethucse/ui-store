@@ -24,8 +24,6 @@ import { LoginStatusComponent } from './components/login-status/login-status.com
 import { AuthInterceptorService } from 'src/app/services/auth-interceptor.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
-/* import { OktaAuthModule, OktaCallbackComponent, OKTA_CONFIG } from '@okta/okta-angular';
-import { OktaAuth } from '@Okta/okta-auth-js'; */
 import { Router } from '@angular/router';
 import { Injector } from '@angular/core';
 import { MembersPageComponent } from './components/members-page/members-page.component';
@@ -36,10 +34,6 @@ import { AlertComponent } from './components/alert/alert.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AboutComponent } from './components/about/about.component';
-
-/* const oktaConfig = myAppConfig.oidc;
-
-const oktaAuth = new OktaAuth(oktaConfig); */
 
  function sendToLoginPage(injector: Injector){
   const router = injector.get(Router);
@@ -82,7 +76,7 @@ const routes: Routes = [
     AboutComponent
   ],
   imports: [
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes,{scrollPositionRestoration: 'enabled'}),
     BrowserModule,
     HttpClientModule,
     NgbModule,
@@ -93,10 +87,8 @@ const routes: Routes = [
   MatCardModule,
   BrowserAnimationsModule,
   ToastrModule.forRoot()
-    /* OktaAuthModule */
   ],
-  providers: [ProductService , { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
-  /* , { provide: OKTA_CONFIG, useValue: { oktaAuth }} */],
+  providers: [ProductService , { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
