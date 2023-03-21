@@ -27,20 +27,14 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Injector } from '@angular/core';
 
-import myAppConfig from './config/my-app-config';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AboutComponent } from './components/about/about.component';
 
- function sendToLoginPage(injector: Injector){
-  const router = injector.get(Router);
-  router.navigate(['/login']);
-}
-
 const routes: Routes = [
-{path: 'order-history', component: OrderHistoryComponent /* canActivate: [true], data: { onAuthRequired: sendToLoginPage } */ },
+{path: 'order-history', component: OrderHistoryComponent},
 {path: 'login/callback', component: LoginComponent},
 {path: 'login', component: LoginComponent},
 {path: 'alert', component: AlertComponent},

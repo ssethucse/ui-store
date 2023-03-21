@@ -10,9 +10,6 @@ import { OtpService } from 'src/app/services/otp.service';
 import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
-
-import myAppConfig from '../../config/my-app-config';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
