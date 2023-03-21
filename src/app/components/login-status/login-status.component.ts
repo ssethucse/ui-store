@@ -14,7 +14,6 @@ export class LoginStatusComponent implements OnInit{
 isAuthenticated: boolean = false;
 userFullName: string = '';
 orderHistory: boolean = false;
-memberShow: boolean = false;
 
 storage: Storage = localStorage;
 
@@ -28,18 +27,6 @@ ngOnInit(): void{
   customer.phone = JSON.parse(this.storage.getItem('phone'));
   customer.identity = JSON.parse(this.storage.getItem('identity'));
 
-  if(customer.phone == '9944370922' && customer.identity == '870306080171'){
-  this.authService.getAuthenticateDetail(customer).subscribe({
-  next: response => {
-    this.memberShow = true;
-  },
-  error: err => {
-   this.memberShow = false;
-   console.log(`There was an error:${err.message}`);
-  }
-  });
-  }
-
   this.orderHistory = JSON.parse(this.storage.getItem('orderHistory'));
 }
 
@@ -49,7 +36,6 @@ this.ngOnInit();
 
 logout(){
   this.storage.clear();
-  this.memberShow = false;
   //location.reload();
   //window.location.reload();
   window.location.href = window.location.href;

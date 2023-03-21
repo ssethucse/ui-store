@@ -26,7 +26,6 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 
 import { Router } from '@angular/router';
 import { Injector } from '@angular/core';
-import { MembersPageComponent } from './components/members-page/members-page.component';
 
 import myAppConfig from './config/my-app-config';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
@@ -42,7 +41,6 @@ import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
 {path: 'order-history', component: OrderHistoryComponent /* canActivate: [true], data: { onAuthRequired: sendToLoginPage } */ },
-{path: 'members', component: MembersPageComponent/* , canActivate: [false], data: { onAuthRequired: sendToLoginPage } */},
 {path: 'login/callback', component: LoginComponent},
 {path: 'login', component: LoginComponent},
 {path: 'alert', component: AlertComponent},
@@ -70,7 +68,6 @@ const routes: Routes = [
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
-    MembersPageComponent,
     OrderHistoryComponent,
     AlertComponent,
     AboutComponent

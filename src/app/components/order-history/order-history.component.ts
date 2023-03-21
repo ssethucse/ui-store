@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class OrderHistoryComponent implements OnInit {
 
- orderHistoryList: OrderHistory[]=[];
+ orderHistoryList: any;//OrderHistory[]=[];
  storage: Storage = localStorage;
  authError: string = "";
 
@@ -54,7 +54,7 @@ export class OrderHistoryComponent implements OnInit {
 
     this.orderHistoryService.getOrderHistory1(thePhone).subscribe({
       next: response => {
-        this.orderHistoryList = response.content;
+        this.orderHistoryList = response;//.content;
         this.storage.setItem('authError',JSON.stringify("false"));
         this.authError = 'No Records Found.Please Create the Order.';
       },
