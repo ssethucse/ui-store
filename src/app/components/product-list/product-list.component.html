@@ -14,11 +14,11 @@
             </a>-->
             <h1>{{prod.name}}</h1>
 
-            <button class="au-btn-submit" (click)="doSearch(prod.id)">
+            <!--<button class="au-btn-submit" (click)="doSearch(prod.id)">
               <span class="bi bi-info"> Info </span>
-            </button>
+            </button>-->
             <div class="price"> <b>{{prod.discountPrice | currency:'INR'}}</b></div>
-            <div *ngIf = "prod.unitPrice>0"> <strike>{{prod.unitPrice | currency:'INR'}}</strike></div>
+            <div *ngIf = "prod.unitPrice!=prod.discountPrice"> <strike>{{prod.unitPrice | currency:'INR'}}</strike></div>
             <button (click)="addToCart(prod)" class="btn btn-primary btn-sm">Add to cart</button>
           </div>
         </div>

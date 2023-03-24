@@ -54,22 +54,22 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <!--<div class="row">
             <div class="col-md-2"> <label>Email</label></div>
             <div class="col-md-9">
               <div class="input-space">
                 <input formControlName="email" type="text">
-                <!--<div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger mt-1">
+                &lt;!&ndash;<div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger mt-1">
                   <div *ngIf="email.errors.required">
                     Email is required
                   </div>
                   <div *ngIf = "email.errors.pattern">
                     Email Address must be in valid Format.
                   </div>
-                </div>-->
+                </div>&ndash;&gt;
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
 
         <div formGroupName="shippingAddress" class="form-area">
@@ -356,9 +356,12 @@
           <p>Total Quantity: {{ totalQuantity }}</p>
           <p>Total Price: {{ totalPrice | currency: 'INR'}}</p>
           <!--<p>Total Discount: {{ totalDiscount | currency: 'INR'}}</p>-->
+          <div *ngIf="shippingFees">
+            <p>Delivery Charge: ₹50</p>
+          </div>
 
           <div *ngIf="shippingFees"><hr>
-            <p><b>Delivery Charges applicable for below 1000 Rupees.</b></p>
+            <p>Final Price: {{ totalPrice + 50 | currency: 'INR'}}</p>
             <hr>
           </div>
         </div>
