@@ -80,6 +80,7 @@ next: response => {
   next: response => {
     this.storage.setItem('authToken',JSON.stringify(`${response.data}`));
     this.storage.setItem('authError',JSON.stringify("false"));
+    window.location.href = window.location.href;
   },
   error: err => {
     console.log(`There was an error:${err.message}`);
@@ -88,13 +89,11 @@ next: response => {
     return;
   }
   });
-this.storage.setItem('orderHistory',JSON.stringify("true"));
+  this.storage.setItem('orderHistory',JSON.stringify("true"));
 
  //window.location.reload();
+  this.router.navigateByUrl("product/getProducts/1");
   window.location.href = window.location.href;
-//location.reload();
-//this.router.navigateByUrl("product/getProducts");
-//alert(`Login Successfully.${response.data}`);
 },
 error: err => {
 //alert(`There was an error:${err.message}`);
@@ -107,7 +106,7 @@ return;
 
 
 //this.errorMsg="";
-this.router.navigateByUrl("product/getProducts");
+this.router.navigateByUrl("product/getProducts/1");
 //this.storage.setItem('orderHistory',JSON.stringify("true"));
 }
 this.clear();

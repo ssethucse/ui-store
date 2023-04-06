@@ -25,6 +25,7 @@ shippingFees: boolean = true;
 phones: string = null;
 customerValidate: boolean = false;
 checkDisk: boolean = false;
+isDisabled: boolean = false;
 
 address: Address = new Address();
 
@@ -46,6 +47,7 @@ constructor(private formBuilder: FormBuilder,
 ngOnInit(): void{
 this.reviewCartDetails();
 this.getAddressDetails();
+this.isDisabled = false;
 
 this.checkoutFormGroup = this.formBuilder.group({
 customer: this.formBuilder.group({
@@ -97,6 +99,7 @@ this.creditCardYears = data;
 }
 
 onSubmit(){
+this.isDisabled = true;
 //alert(this.checkoutFormGroup.get('customer').value.email);
 let location: string[]=['600106','600094','600034','600030','600026','600093','600024','600092','600102','600107','600010','600040','600031','600029'];
 
@@ -153,7 +156,11 @@ next: response => {
        //alert(`Your Order has been received.\nWe will get back you soon.`);
        this.resetCart();
        this.toastr.success("Your Order has been received.\nWe will get back you soon.","Ordered Successfully!");
-       this.router.navigateByUrl("/order-history");
+       if(JSON.parse(this.storage.getItem('authError'))=="false"){
+          this.router.navigateByUrl("/order-history");
+       }else{
+          this.router.navigateByUrl("/product/getProducts/1");
+        }
        },
        error: err => {
        //alert(`There was an error:${err.message}`);

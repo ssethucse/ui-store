@@ -1,0 +1,11 @@
+.mat-badge-content {
+  width: 50px;
+  height: 35px;
+  line-height: 40px;
+}
+.mat-badge-medium.mat-badge-above .mat-badge-content {
+    left: 120px;
+}
+
+
+

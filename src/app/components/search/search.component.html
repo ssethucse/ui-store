@@ -1,6 +1,6 @@
 <form class="form-header">
 
-  <button routerLink="/about"  class="au-btn-submit" data-toggle="tooltip" data-placement="bottom"
+  <button routerLink="/about"  class="au-btn-submit" style="margin-right: 10px;margin-left: 40px;" data-toggle="tooltip" data-placement="bottom"
           title="Call Us For Enquiry or Delivery!
     R-77,
     Ground Floor,
@@ -14,11 +14,12 @@
     <span class="bi bi-phone "></span>
   </button>
 
+
   <input #myInput type="text" class="au-input au-input-xl"
          (keyup.enter)="doSearch(myInput.value)"
          placeholder="Search for products ..." >
 
-  <button class="au-btn-submit" (click)="doSearch(myInput.value)" >
+  <button class="au-btn-submit"  style="margin-right: 10px;margin-left: 20px;"  (click)="doSearch(myInput.value)" >
     Search
   </button>
 </form>

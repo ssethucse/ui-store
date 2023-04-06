@@ -5,6 +5,8 @@ import { Customer } from 'src/app/common/customer';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-order-history',
@@ -15,7 +17,8 @@ export class OrderHistoryComponent implements OnInit {
 
  orderHistoryList: any;//OrderHistory[]=[];
  storage: Storage = localStorage;
- authError: string = "";
+ authError: string = "Please Login To View The Order Details.";
+ spinner: boolean = false;
 
  constructor(private orderHistoryService: OrderHistoryService,
              private authService: AuthServiceService,
@@ -24,7 +27,12 @@ export class OrderHistoryComponent implements OnInit {
 
  ngOnInit(): void {
     this.loadAuth();
+    this.spinner = true;
+
+ setTimeout(()=>{
     this.handleOrderHistory();
+    this.spinner = false;
+ }, 4000);
     this.router.navigateByUrl("/order-history");
   }
 
@@ -54,7 +62,7 @@ export class OrderHistoryComponent implements OnInit {
 
     this.orderHistoryService.getOrderHistory1(thePhone).subscribe({
       next: response => {
-        this.orderHistoryList = response;//.content;
+        this.orderHistoryList = response;
         this.storage.setItem('authError',JSON.stringify("false"));
         this.authError = 'No Records Found.Please Create the Order.';
       },

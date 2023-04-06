@@ -18,6 +18,18 @@
     display:flex
 }
 
+.security-btns {
+    position:relative;
+    right:0;
+    min-width:40px;
+    color:#fff;
+    border:10px solid #205b8d;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:33px;
+    background:#205b8d
+}
+
 .login-status-user-info {
     line-height:43px;
     border:1px;

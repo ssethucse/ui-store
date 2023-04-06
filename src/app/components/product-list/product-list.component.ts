@@ -5,6 +5,7 @@ import { Product } from 'src/app/common/Product';
 import { CartItem } from 'src/app/common/cart-item';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-list',
@@ -12,7 +13,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit {
-
   products: Product[] = [];
   currentCategoryId: number = 1;
   previousCategoryId: number = 1;
@@ -26,7 +26,8 @@ export class ProductListComponent implements OnInit {
   constructor(private productService: ProductService,
     private cartService: CartService,
     private route: ActivatedRoute,
-     private router: Router) { }
+     private router: Router,
+     private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(() => {
@@ -104,7 +105,7 @@ this.listProducts();
 }
 
 addToCart(product: Product){
-
+this.toastr.success("Added Successfully.","Cart Status");
 const theCartItem = new CartItem(product);
 this.cartService.addToCart(theCartItem);
 }

@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  baseUrl: "http://localhost:8085"
-  //baseUrl: "http://ec2-54-146-9-127.compute-1.amazonaws.com:8080"
+  //baseUrl: "http://localhost:8085"
+  //baseUrl: "https://ec2-54-146-9-127.compute-1.amazonaws.com:8085"
+  baseUrl: "https://1enbpfkvxh.execute-api.us-east-1.amazonaws.com/development"
 };
 
 /*

@@ -36,10 +36,9 @@ this.ngOnInit();
 
 logout(){
   this.storage.clear();
-  //location.reload();
-  //window.location.reload();
-  window.location.href = window.location.href;
-  this.router.navigateByUrl("product/getProducts");
+  //window.location.href = window.location.href;
+  //this.router.navigateByUrl("product/getProducts/1");
+  window.location.reload();
 }
 
 }

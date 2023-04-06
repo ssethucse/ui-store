@@ -5,6 +5,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatBadgeModule} from '@angular/material/badge';
+import { MatIconModule } from "@angular/material/icon";
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
@@ -32,20 +35,22 @@ import { AlertComponent } from './components/alert/alert.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AboutComponent } from './components/about/about.component';
+import { SliderComponent } from './components/slider/slider.component';
+import { AnimateComponent } from './components/animate/animate.component';
 
 const routes: Routes = [
-{path: 'order-history', component: OrderHistoryComponent},
 {path: 'login/callback', component: LoginComponent},
 {path: 'login', component: LoginComponent},
-{path: 'alert', component: AlertComponent},
-{path: 'about', component: AboutComponent},
 
-{path: 'checkout', component: CheckoutComponent},
-{path: 'cart-details', component: CartDetailsComponent},
 {path: 'product/getInfo/:id', component: ProductDetailsComponent},
 {path: 'product/getProducts/search/:keyword', component: ProductListComponent},
 {path: 'product/getProducts/:id', component: ProductListComponent},
 {path: 'product/getProducts', component: ProductListComponent},
+{path: 'checkout', component: CheckoutComponent},
+{path: 'cart-details', component: CartDetailsComponent},
+{path: 'order-history', component: OrderHistoryComponent},
+{path: 'alert', component: AlertComponent},
+{path: 'about', component: AboutComponent},
 {path: '', redirectTo: 'product/getProducts', pathMatch: 'full'},
 {path: '**', redirectTo: 'product/getProducts', pathMatch: 'full'}
 ];
@@ -64,16 +69,20 @@ const routes: Routes = [
     LoginStatusComponent,
     OrderHistoryComponent,
     AlertComponent,
-    AboutComponent
+    AboutComponent,
+    SliderComponent,
+    AnimateComponent
   ],
   imports: [
     RouterModule.forRoot(routes,{scrollPositionRestoration: 'enabled'}),
     BrowserModule,
     HttpClientModule,
     NgbModule,
+    MatIconModule,
     ReactiveFormsModule,
   MatButtonModule,
   MatInputModule,
+    MatBadgeModule,
   FormsModule,
   MatCardModule,
   BrowserAnimationsModule,

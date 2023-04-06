@@ -6,7 +6,10 @@
         <!--Loop over the collection of products -->
         <div *ngFor = "let prod of products" class="col-md-3">
           <div class="product-box">
-
+            <p>
+              <span matBadge="{{ (((prod.unitPrice-prod.discountPrice)/prod.unitPrice)*100) | number: '1.0-0' }}% OFF"
+                    matBadgeOverlap="false" matBadgePosition="after" matBadgeColor="DodgerBlue"></span>
+            </p>
             <img src="{{ prod.imageUrl }}" class="img-responsive">
 
             <!--<a routerLink="product/getInfo/{{prod.id}}">
