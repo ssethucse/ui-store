@@ -1,14 +1,16 @@
 <form class="form-header">
 
-  <button routerLink="/about"  class="au-btn-submit" style="margin-right: 10px;margin-left: 40px;" data-toggle="tooltip" data-placement="bottom"
+  <button routerLink="/about"
+          class="au-btn-submit"
+          style="margin-right: 0px;margin-left: 30px;border-top-right-radius: 70px;"
+          data-toggle="tooltip"
+          data-placement="bottom"
           title="Call Us For Enquiry or Delivery!
-    R-77,
-    Ground Floor,
+    R-77, Ground Floor,
     MMDA Colony, Water Tank Road,
-    Arumbakkam,
-    Near Poorvika Showroom,
-    Chennai - 600029
-    mobile:9944370922">
+    Arumbakkam - Chennai - 600029
+    LandMark: Poorvika Showroom,Imatrix Technologies,
+    Mobile:9944370922">
     <span class="bi bi-geo "></span>
 
     <span class="bi bi-phone "></span>
@@ -18,8 +20,10 @@
   <input #myInput type="text" class="au-input au-input-xl"
          (keyup.enter)="doSearch(myInput.value)"
          placeholder="Search for products ..." >
-
-  <button class="au-btn-submit"  style="margin-right: 10px;margin-left: 20px;"  (click)="doSearch(myInput.value)" >
+  <span>
+  <button class="au-btn-submit"  style="height: 45px;margin-right: 20px;margin-left: 20px;border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;"  (click)="doSearch(myInput.value)" >
     Search
   </button>
+  </span>
 </form>

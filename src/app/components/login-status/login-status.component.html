@@ -4,15 +4,15 @@
   </div>
 
   <div>
-  <button routerLink="/products" class="security-btns">
-    <span class="bi bi-house"></span>
-  </button>
-  </div>
-
-  <div>
-    <button routerLink="/cart-details" class="security-btn">
-      View Cart
-    </button>
+    <!--<button routerLink="/products" class="security-btns">
+      <span class="bi bi-house"></span>
+    </button>-->
+    <button routerLink="/products"
+            class="material-icons"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Home Page"
+            style="color:white;font-size: 40px;">home</button>
   </div>
 
   <div *ngIf="!orderHistory">
@@ -20,7 +20,32 @@
   </div>
 
   <div *ngIf="orderHistory">
-      <button routerLink = "/order-history" class="security-btn ml-3" >Orders</button>
-      <button (click)="logout()" class="security-btn">Logout</button>
+      <button routerLink = "/order-history"
+              data-toggle="tooltip"
+              data-placement="bottom"
+              title="View Order History"
+              class="security-btn ml-3" >Orders</button>
+    <!--<button routerLink = "/order-history"  class="material-icons" style="color:white;font-size: 45px;">remove_red_eye</button>-->
+      <!--<button (click)="logout()" class="security-btn" style="margin-left:80px">Logout</button>-->
   </div>
+
+  <div>
+     <button routerLink="/cart-details"
+             data-toggle="tooltip"
+             data-placement="bottom"
+             title="View Cart Details"
+             class="security-btn">
+       View Cart
+     </button>
+    <!--<button routerLink="/cart-details" style="color:white;font-size: 28px;"><i class="fa fa-shopping-cart"></i></button>-->
+  </div>
+  <div>
+    <button (click)="logout()"
+            class="material-icons"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Log Off"
+            style="color:white;font-size: 45px;"> logout</button>
+  </div>
+
 </div>
