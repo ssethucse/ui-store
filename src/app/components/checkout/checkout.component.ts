@@ -123,7 +123,11 @@ next: response => {
  if(response!=null && response.identity!=null && response.identity.length>0){
 
      let order = new Order();
+     if(this.totalPrice<1000){
+        order.totalPrice = this.totalPrice + 50;
+     }else{
        order.totalPrice = this.totalPrice;
+     }
        order.totalQuantity = this.totalQuantity;
 
        const cartItems = this.cartService.cartItems;

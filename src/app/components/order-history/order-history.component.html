@@ -6,31 +6,60 @@
         <span class="visually-hidden">Loading...</span>
       </div>
       <div *ngIf="orderHistoryList!=null && orderHistoryList.length>0">
-
-        <table class="table table-bordered">
+        <div style="overflow-x:auto;">
+        <table class="table table-bordered" >
           <tr>
-            <th width="20%">Order Tracking Number</th>
+            <th width="15%">Order Number</th>
             <th width="10%">Total Price</th>
-            <th width="10%">Total Quantity</th>
+            <th width="5%" style="text-align: center; vertical-align: middle;">Qty</th>
             <th width="10%">Date</th>
-            <th width="10%">Status</th>
+            <th width="10%" style="text-align: center; vertical-align: middle;">Status</th>
+            <th width="5%">Details</th>
           </tr>
 
 
             <tr *ngFor = "let temp of orderHistoryList">
               <td>{{temp.orderTrackingNumber}}</td>
               <td>{{temp.totalPrice | currency: 'INR'}}</td>
-              <td>{{temp.totalQuantity}}</td>
+              <td style="text-align: center; vertical-align: middle;">{{temp.totalQuantity}}</td>
               <td>{{temp.dateCreated | date: 'medium'}}</td>
-              <td>{{temp.status}}</td>
+              <td style="text-align: center; vertical-align: middle;">{{temp.status}}</td>
+              <!--<td><button  (click) ="invoiceDetails(temp.orderTrackingNumber)"
+                           class="btn btn-primary btn-sm">View</button></td>-->
+              <td>
+              <button (click) ="invoiceDetails(temp.orderTrackingNumber)"
+                      class="material-icons blue-color" style="color:blue;"> remove_red_eye</button>
+              </td>
             </tr>
 
         </table>
+        </div>
       </div>
       <div *ngIf="orderHistoryList!=null && orderHistoryList.length==0" class="alert alert-warning col-md-12" role="alert">
         {{authError}}.
       </div>
 
+
+<div id="target">
+      <div *ngIf="orderInvoiceList!=null && orderInvoiceList.length>0">
+
+        <h3>Order Details:</h3>
+        <table class="table table-bordered">
+          <tr>
+            <th width="20%">Name</th>
+            <th width="10%" style="text-align: center; vertical-align: middle;">quantity</th>
+            <th width="10%" style="text-align: center; vertical-align: middle;">price</th>
+          </tr>
+
+          <tr *ngFor = "let temp of orderInvoiceList">
+            <td style="padding: 10px">{{temp.name}}</td>
+            <td style="text-align: center; vertical-align: middle;">{{temp.quantity }}</td>
+            <td style="text-align: center; vertical-align: middle;">{{temp.price | currency: 'INR' }}</td>
+          </tr>
+
+        </table>
+      </div>
+</div>
     </div>
   </div>
 </div>

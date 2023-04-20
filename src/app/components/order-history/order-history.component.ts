@@ -6,6 +6,7 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { InvoiceHistory } from 'src/app/common/invoice-history';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -16,6 +17,7 @@ import { delay } from 'rxjs/operators';
 export class OrderHistoryComponent implements OnInit {
 
  orderHistoryList: any;//OrderHistory[]=[];
+ orderInvoiceList: InvoiceHistory[]=[];
  storage: Storage = localStorage;
  authError: string = "Please Login To View The Order Details.";
  spinner: boolean = false;
@@ -77,4 +79,13 @@ export class OrderHistoryComponent implements OnInit {
       }
       });
   }
+
+      invoiceDetails(id: string){
+        this.orderHistoryService.updateInvoice(id).subscribe(
+            data=>{
+               this.orderInvoiceList = data;
+               })
+        document.querySelector('#target').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
 }
